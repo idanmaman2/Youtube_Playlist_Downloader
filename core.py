@@ -1,19 +1,12 @@
-#!python3
-# Usage -
-# 1. open cmd
-# 2. cd to the folder where these files are present
-# 3. type - python ytdown.py
-# the script will start working
+
 
 
 import os
-import subprocess
 from pytube import YouTube
-import random
 import requests
 import re
 import json
-import string
+
 
 
 #imp functions
