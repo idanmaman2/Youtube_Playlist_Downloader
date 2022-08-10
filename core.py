@@ -1,9 +1,4 @@
-#!python3
-# Usage -
-# 1. open cmd
-# 2. cd to the folder where these files are present
-# 3. type - python ytdown.py
-# the script will start working
+
 
 
 import os
@@ -11,7 +6,9 @@ from pytube import YouTube
 import requests
 import re
 import json
+
 import ytjson
+
 def link_snatcher(url):
     jsonObject = ytjson.get_ytJson(url)
     contents = jsonObject["contents"]["twoColumnWatchNextResults"]["playlist"]["playlist"]
