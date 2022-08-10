@@ -1,7 +1,6 @@
 import json
-import requests
-import re
 import ytjson
+
 def getjson(url): 
   jsonObject=ytjson.get_ytJson(url)
   dictRes = {"links" : None }
@@ -11,8 +10,9 @@ def getjson(url):
   listRes = map(lambda pack : pack["gridPlaylistRenderer"]["navigationEndpoint"]["commandMetadata"]["webCommandMetadata"]["url"]  ,filter(lambda x : "gridPlaylistRenderer" in x , playlists) )
   dictRes["links"] = list(map(lambda linkId: f"http://youtube.com{linkId}" , listRes))
   return dictRes  
-
-
+    
 file = open("playlist_dumps.json",'w',encoding='utf-8')
-file.write(json.dumps(getjson("https://www.youtube.com/channel/UC8DT6_qCiFpANeZ242oSmwg/playlists")))
+dumps = json.dumps(getjson("https://www.youtube.com/channel/UC8DT6_qCiFpANeZ242oSmwg/playlists"))
+file.write(dumps)
+print(dumps)
 file.close()
