@@ -7,6 +7,8 @@ __pycache__/
 # json's
 *.json 
 test_files/
+# html 
+*.html
 
 # C extensions
 *.so

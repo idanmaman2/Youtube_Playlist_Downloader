@@ -6,8 +6,10 @@ def get_ytJson(url):
         query = requests.get(url).text
     except:
         raise Exception(':( - skynet overrite all of your computer - just joking there is no internet ')
-        
-    return json.loads(next(re.finditer("var ytInitialData = (\{.*\}\}\});\<",query)).group(1))
+    try : 
+        return json.loads(next(re.finditer("var ytInitialData = (\{.*\}\}\});\<\/script>",query)).group(1))
+    except : 
+        return None
 def get_title(url):
     try:
         res = requests.get(url)
