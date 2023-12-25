@@ -25,23 +25,23 @@ class Res(enum.Enum):
 def Downloadtask(): 
     while songsQeue or  waiting   : 
         if songsQeue : 
-            stream, title  = songsQeue.pop()
+            stream, title = songsQeue.pop()
             try : 
                 print(f"downlading {title}")
                 stream.download(title)
                 print(f"downloaded {title}")
             except : 
                 print ( title , "failed", sep ="-", end= f"\n{ ('*' * 10) } \n")
-        elif waiting :
+        elif waiting :                
             time.sleep(0.5)
 
-def link_snatcher(url:str ,res : Res):
+def link_snatcher(url:str ,res : Res ):
     jsonObject = ytjson.get_ytJson(url)
     contents = jsonObject["contents"]["twoColumnWatchNextResults"]["playlist"]["playlist"]
     title = contents["title"]
     print("title: " , title)
     contents = contents["contents"]
-    dir = os.getcwd()+f"/Quality{res}" + "/"+  ytjson.get_title(url)
+    dir = os.getcwd() + f"/Quality{res}" + "/"+  title
     for playlistItem in map(lambda x : x["playlistPanelVideoRenderer"] , contents[:-1]): 
         titleLocal = playlistItem["title"]["simpleText"]
         linkId = playlistItem["videoId"]
@@ -56,9 +56,9 @@ def link_snatcher(url:str ,res : Res):
             case Res.AudioFirst:
                 stream = yt.streams.filter(type="audio").first()
             case Res.VideoHighRes:
-                stream =max(yt.streams.filter(type="video"),key=lambda x : x.res)
+                stream =max(yt.streams.filter(type="video"),key=lambda x : x.resolution)
             case Res.VidoeLowRes:
-                stream =min(yt.streams.filter(type="video"),key=lambda x : x.res)
+                stream =min(yt.streams.filter(type="video"),key=lambda x : x.resolution)
             case Res.ViedoHighFps:
                 stream =max(yt.streams.filter(type="video"),key=lambda x : x.fps)
             case Res.VideoLowFps:
@@ -66,8 +66,11 @@ def link_snatcher(url:str ,res : Res):
             case Res.AudioFirst:
                 stream = yt.streams.filter(type="video").first()
         songsQeue.appendleft((stream,dir))
+        
+        
 file_name = input("enter json with links path: ")
 jsObject = json.load(open(file_name,'r'))
+print(*list(Res),sep="\n")
 quality = Res(int(input("quality: ")))
 threads =[threading.Thread(target = Downloadtask) for i in range(THREADS)]
 for tr in threads : 

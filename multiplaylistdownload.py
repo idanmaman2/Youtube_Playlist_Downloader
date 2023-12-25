@@ -17,7 +17,7 @@ def getjson(url):
 
     
 file = open("playlist_dumps.json",'w',encoding='utf-8')
-dumps = json.dumps(getjson("https://www.youtube.com/@KerenPelesOfficial/playlists"))
+dumps = json.dumps(getjson(input("https://www.youtube.com/@VEVO/playlists")))
 file.write(dumps)
 print(dumps)
 file.close()
